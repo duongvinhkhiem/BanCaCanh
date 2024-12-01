@@ -1,0 +1,6 @@
+@BanCaCanh_HostAddress = http://localhost:5212
+
+GET {{BanCaCanh_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
