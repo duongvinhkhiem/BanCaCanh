@@ -16,6 +16,16 @@ builder.WebHost.ConfigureKestrel(options =>
     options.Listen(IPAddress.Any, 5212);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("EnableCors", policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
@@ -76,6 +86,8 @@ if (app.Environment.IsDevelopment())
 app.Urls.Add("http://0.0.0.0:5212");
 
 app.UseHttpsRedirection();
+
+app.UseCors("EnableCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
