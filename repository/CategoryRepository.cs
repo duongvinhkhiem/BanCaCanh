@@ -6,6 +6,7 @@ using BanCaCanh.data;
 using BanCaCanh.dto.category;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace BanCaCanh.repository

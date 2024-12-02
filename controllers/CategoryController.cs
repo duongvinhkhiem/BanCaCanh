@@ -6,6 +6,7 @@ using BanCaCanh.data;
 using BanCaCanh.dto.category;
 using BanCaCanh.Interface;
 using BanCaCanh.mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,6 +46,7 @@ namespace BanCaCanh.controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto)
         {
             var categoryModel = categoryDto.ToCreateCategoryDto();
@@ -53,6 +55,7 @@ namespace BanCaCanh.controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateCategory([FromRoute] int id, [FromBody] CreateCategoryDto categoryDto)
         {
             var categoryModel = await _categoryRepo.UpdateAsync(id, categoryDto);
@@ -65,6 +68,7 @@ namespace BanCaCanh.controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
             var categoryModel = await _categoryRepo.DeleteAsync(id);
