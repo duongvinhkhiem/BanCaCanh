@@ -21,6 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.Urls.Add("http://0.0.0.0:5212");
+
 app.UseHttpsRedirection();
 
 app.MapControllers();
