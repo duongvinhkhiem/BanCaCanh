@@ -28,7 +28,7 @@ namespace BanCaCanh.controllers
         {
             var products = await _productRepo.GetAllAsync();
             var productsDto = products.Select(s => s.ToProductDto());
-            return Ok(products);
+            return Ok(productsDto);
         }
 
         [HttpGet("{id}")]

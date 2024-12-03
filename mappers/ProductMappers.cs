@@ -19,7 +19,7 @@ namespace BanCaCanh.mappers
                 Description = productModel.Description,
                 IsVisible = productModel.IsVisible,
                 CategoryId = productModel.CategoryId,
-                StockQuanity = productModel.StockQuanity,
+                StockQuantity = productModel.StockQuantity,
             };
         }
         public static Product ToCreateProductDto(this CreateProductDto productModel, int categoryId)
@@ -30,8 +30,8 @@ namespace BanCaCanh.mappers
                 Price = productModel.Price,
                 Description = productModel.Description,
                 IsVisible = productModel.IsVisible,
-                CategoryId = productModel.CategoryId,
-                StockQuanity = productModel.StockQuanity,
+                CategoryId = categoryId,
+                StockQuantity = productModel.StockQuantity,
             };
         }
     }

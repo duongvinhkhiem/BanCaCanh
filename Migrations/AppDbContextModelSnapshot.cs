@@ -121,7 +121,7 @@ namespace BanCaCanh.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("StockQuanity")
+                    b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -179,13 +179,13 @@ namespace BanCaCanh.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a0dd72a7-52ac-4224-ad84-aeb5699cb978",
+                            Id = "e903c6bc-e893-42b5-93d3-7a0893dc1d58",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "aa8292f1-e110-43d6-bee8-3f8cfa737eff",
+                            Id = "336987aa-b07d-44dc-a083-a0c503fec3cf",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BanCaCanh.Migrations
 {
     /// <inheritdoc />
-    public partial class product : Migration
+    public partial class products : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,7 @@ namespace BanCaCanh.Migrations
                     Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StockQuanity = table.Column<int>(type: "int", nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: false),
                     IsVisible = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -75,8 +75,8 @@ namespace BanCaCanh.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a0dd72a7-52ac-4224-ad84-aeb5699cb978", null, "Admin", "ADMIN" },
-                    { "aa8292f1-e110-43d6-bee8-3f8cfa737eff", null, "User", "USER" }
+                    { "336987aa-b07d-44dc-a083-a0c503fec3cf", null, "User", "USER" },
+                    { "e903c6bc-e893-42b5-93d3-7a0893dc1d58", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -102,12 +102,12 @@ namespace BanCaCanh.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "a0dd72a7-52ac-4224-ad84-aeb5699cb978");
+                keyValue: "336987aa-b07d-44dc-a083-a0c503fec3cf");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "aa8292f1-e110-43d6-bee8-3f8cfa737eff");
+                keyValue: "e903c6bc-e893-42b5-93d3-7a0893dc1d58");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
