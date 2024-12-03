@@ -102,6 +102,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ITokenService, TokenSerivce>();
 
 var app = builder.Build();

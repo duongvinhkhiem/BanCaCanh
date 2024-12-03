@@ -19,6 +19,11 @@ namespace BanCaCanh.repository
             _context = context;
         }
 
+        public Task<bool> CategoryExists(int id)
+        {
+            return _context.Categories.AnyAsync(s => s.Id == id);
+        }
+
         public async Task<Category> CreateAsync(Category categoryModel)
         {
             await _context.AddAsync(categoryModel);

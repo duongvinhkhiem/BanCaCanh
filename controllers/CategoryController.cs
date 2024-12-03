@@ -27,11 +27,9 @@ namespace BanCaCanh.controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _categoryRepo.GetAllAsync(
-
-            );
+            var categories = await _categoryRepo.GetAllAsync();
             var categoriesDto = categories.Select(s => s.ToCategoryDto());
-            return Ok(categories);
+            return Ok(categoriesDto);
         }
 
         [HttpGet("{id}")]
