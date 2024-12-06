@@ -17,10 +17,24 @@ namespace BanCaCanh.data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ProductCategory>(x => x.HasKey(p => new { p.CategoryId, p.ProductId }));
+
+            builder.Entity<ProductCategory>()
+                .HasOne(u => u.Category)
+                .WithMany(u => u.ProductCategory)
+                .HasForeignKey(p => p.CategoryId);
+
+            builder.Entity<ProductCategory>()
+                .HasOne(u => u.Product)
+                .WithMany(u => u.ProductCategory)
+                .HasForeignKey(p => p.ProductId);
+
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole{

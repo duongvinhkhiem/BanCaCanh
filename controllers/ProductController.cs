@@ -6,6 +6,7 @@ using BanCaCanh.dto.category;
 using BanCaCanh.dto.product;
 using BanCaCanh.Interface;
 using BanCaCanh.mappers;
+using BanCaCanh.models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +17,26 @@ namespace BanCaCanh.controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepo;
-        private readonly ICategoryRepository _categoryRepo;
-        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo)
+        private readonly IProductImage _productImageRepo;
+        public ProductController(IProductRepository productRepo, IProductImage productImageRepo)
         {
             _productRepo = productRepo;
-            _categoryRepo = categoryRepo;
+            _productImageRepo = productImageRepo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productRepo.GetAllAsync();
-            var productsDto = products.Select(s => s.ToProductDto());
-            return Ok(productsDto);
+            var productDto = new List<ProductDto>();
+            foreach (var item in products)
+            {
+                var images = await _productImageRepo.GetAllAsync(item.Id);
+                var product = item.ToProductDto(images);
+                product.ProductImages = images;
+                productDto.Add(product);
+            }
+            return Ok(productDto);
         }
 
         [HttpGet("{id}")]
@@ -39,20 +47,41 @@ namespace BanCaCanh.controllers
             {
                 return NotFound(new { message = "Sản phẩm không tồn tại" });
             }
-            return Ok(product.ToProductDto());
+            var images = await _productImageRepo.GetAllAsync(id);
+            return Ok(product.ToProductDto(images));
         }
 
-        [HttpPost("{categoryId}")]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromRoute] int categoryId, CreateProductDto productDto)
+        public async Task<IActionResult> Create([FromForm] CreateProductDto productDto)
         {
-            if (!await _categoryRepo.CategoryExists(categoryId))
+            if (productDto.ProductImages == null || productDto.ProductImages.Count == 0 || productDto.ProductImages.Count > 4)
             {
-                return NotFound(new { message = "Loại hàng này không tồn tại" });
+                return BadRequest(new { message = "Phải có ít nhất 1 hình ảnh và không quá 4 hình ảnh." });
             }
-            var productModel = productDto.ToCreateProductDto(categoryId);
+            var productModel = productDto.ToCreateProductDto();
             await _productRepo.CreateAsync(productModel);
-            return CreatedAtAction(nameof(GetById), new { id = productModel.Id }, productModel.ToProductDto());
+
+            for (int i = 0; i < productDto.ProductImages.Count; i++)
+            {
+                var image = productDto.ProductImages[i];
+                var filename = $"{DateTime.Now:yyyyMMddHHmmss}{i}{Path.GetExtension(image.FileName)}";
+                var filePath = Path.Combine("uploads", filename);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+                var productImage = new ProductImage
+                {
+                    ProductId = productModel.Id,
+                    ImageUrl = $"/uploads/{filename}"
+                };
+                await _productImageRepo.CreateAsync(productImage);
+            }
+
+            var images = await _productImageRepo.GetAllAsync(productModel.Id);
+
+            return CreatedAtAction(nameof(GetById), new { id = productModel.Id }, productModel.ToProductDto(images));
         }
     }
 }

@@ -104,31 +104,43 @@ namespace BanCaCanh.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("StockQuantity")
+                    b.Property<int?>("StockQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("BanCaCanh.models.ProductCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Product_Category");
                 });
 
             modelBuilder.Entity("BanCaCanh.models.ProductImage", b =>
@@ -179,13 +191,13 @@ namespace BanCaCanh.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e903c6bc-e893-42b5-93d3-7a0893dc1d58",
+                            Id = "79884e75-a293-4860-a183-c28a85dff9dc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "336987aa-b07d-44dc-a083-a0c503fec3cf",
+                            Id = "64adbc35-cd98-4821-897f-7b46e59ca361",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -293,13 +305,23 @@ namespace BanCaCanh.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BanCaCanh.models.Product", b =>
+            modelBuilder.Entity("BanCaCanh.models.ProductCategory", b =>
                 {
                     b.HasOne("BanCaCanh.models.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .WithMany("ProductCategory")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BanCaCanh.models.Product", "Product")
+                        .WithMany("ProductCategory")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BanCaCanh.models.ProductImage", b =>
@@ -364,11 +386,13 @@ namespace BanCaCanh.Migrations
 
             modelBuilder.Entity("BanCaCanh.models.Category", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("ProductCategory");
                 });
 
             modelBuilder.Entity("BanCaCanh.models.Product", b =>
                 {
+                    b.Navigation("ProductCategory");
+
                     b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618
