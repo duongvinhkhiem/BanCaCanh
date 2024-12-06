@@ -7,6 +7,7 @@ using BanCaCanh.service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -120,6 +121,13 @@ app.Urls.Add("http://0.0.0.0:5212");
 app.UseHttpsRedirection();
 
 app.UseCors("EnableCors");
+
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+    RequestPath = "/uploads",
+    EnableDirectoryBrowsing = false
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
