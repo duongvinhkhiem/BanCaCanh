@@ -83,5 +83,29 @@ namespace BanCaCanh.controllers
 
             return CreatedAtAction(nameof(GetById), new { id = productModel.Id }, productModel.ToProductDto(images));
         }
+
+        [HttpPost("visible/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        {
+            var productModel = await _productRepo.DeleteAsync(id);
+            if (productModel == null)
+            {
+                return NotFound(new { message = "Sản phẩm không tồn tại" });
+            }
+            return Ok(new { message = "Xóa thành công" });
+        }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProduct([FromRoute] int id, UpdateProductDto productDto)
+        {
+            var productModel = await _productRepo.UpdateAsync(id, productDto);
+            if (productModel == null)
+            {
+                return NotFound(new { message = "Sản phẩm không tồn tại" });
+            }
+            var images = await _productImageRepo.GetAllAsync(id);
+            return Ok(productModel.ToProductDto(images));
+        }
     }
 }
