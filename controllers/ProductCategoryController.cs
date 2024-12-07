@@ -35,6 +35,12 @@ namespace BanCaCanh.controllers
             if (product == null) return NotFound("Sản phẩm không tồn tại");
             if (category == null) return NotFound("Loại hàng không tồn tại");
 
+            var exist = await _productCategory.ProductCategoryExists(productCategoryDto);
+            if (exist)
+            {
+                return BadRequest(new { message = "Cặp danh mục sản phẩm đã tồn tại" });
+            }
+
             var model = new ProductCategory
             {
                 ProductId = product.Id,
@@ -46,9 +52,30 @@ namespace BanCaCanh.controllers
             {
                 return StatusCode(500, "Không thể gán sản phẩm");
             }
-
             return Ok(productCategoryDto);
         }
 
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromBody] ProductCategoryDto productCategoryDto)
+        {
+            var product = await _productRepo.GetByIdAsync(productCategoryDto.ProductId);
+            var category = await _categoryRepo.GetByIdAsync(productCategoryDto.CategoryId);
+
+            if (product == null) return NotFound("Sản phẩm không tồn tại");
+            if (category == null) return NotFound("Loại hàng không tồn tại");
+
+            var exist = await _productCategory.ProductCategoryExists(productCategoryDto);
+            if (!exist)
+            {
+                return BadRequest(new { message = "Sản phẩm không chưa gán vào danh mục" });
+            }
+            var model = await _productCategory.DeleteAsync(productCategoryDto);
+            if (model == null)
+            {
+                return BadRequest(new { message = "Không thể xóa danh mục - sản phẩm" });
+            }
+            return NoContent();
+        }
     }
 }

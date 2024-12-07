@@ -93,7 +93,7 @@ namespace BanCaCanh.controllers
             {
                 return NotFound(new { message = "Sản phẩm không tồn tại" });
             }
-            return Ok(new { message = "Xóa thành công" });
+            return Ok(new { message = "Ẩn thành công" });
         }
         [HttpPut("{id}")]
         [Authorize]
