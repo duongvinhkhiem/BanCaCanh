@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BanCaCanh.data;
 using BanCaCanh.dto.product;
+using BanCaCanh.helper;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
 using Microsoft.EntityFrameworkCore;
@@ -37,9 +38,16 @@ namespace BanCaCanh.repository
             return productModel;
         }
 
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync(QueryObject queryObject)
         {
-            return await _context.Products.Where(s => s.IsVisible == true).ToListAsync();
+            var products = await _context.Products.Where(s => s.IsVisible == true).OrderByDescending(p => p.CreatedAt).ToListAsync();
+            var skip = (queryObject.Page - 1) * queryObject.PageSize;
+            if (queryObject.Categoryid != null)
+            {
+                products = await _context.Products.Where(p => p.ProductCategory.Any(pc => pc.CategoryId == queryObject.Categoryid)).ToListAsync();
+                return products.Skip(skip).Take(queryObject.PageSize).ToList();
+            }
+            return products.Skip(skip).Take(queryObject.PageSize).ToList();
         }
 
         public async Task<Product?> GetByIdAsync(int id)

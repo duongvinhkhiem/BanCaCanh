@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BanCaCanh.dto.category;
 using BanCaCanh.dto.product;
+using BanCaCanh.helper;
 using BanCaCanh.Interface;
 using BanCaCanh.mappers;
 using BanCaCanh.models;
@@ -25,9 +26,9 @@ namespace BanCaCanh.controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject queryObject)
         {
-            var products = await _productRepo.GetAllAsync();
+            var products = await _productRepo.GetAllAsync(queryObject);
             var productDto = new List<ProductDto>();
             foreach (var item in products)
             {
