@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using BanCaCanh.data;
 using BanCaCanh.dto.comment;
 using BanCaCanh.extensions;
+using BanCaCanh.Interface;
+using BanCaCanh.mappers;
 using BanCaCanh.models;
+using BanCaCanh.repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +21,13 @@ namespace BanCaCanh.controllers
     public class CommentController : ControllerBase
     {
         private readonly UserManager<AppUser> _usermanager;
-        private readonly AppDbContext _context;
-        public CommentController(UserManager<AppUser> userManager, AppDbContext context)
+        private readonly ICommentRepository _commentRepo;
+        public CommentController(UserManager<AppUser> userManager, ICommentRepository commentRepo)
         {
             _usermanager = userManager;
-            _context = context;
+            _commentRepo = commentRepo;
         }
+
         [HttpPost("{productId}")]
         [Authorize]
         public async Task<IActionResult> CreateComment([FromRoute] int productId, [FromBody] CreateCommentDto commentDto)
@@ -36,9 +40,8 @@ namespace BanCaCanh.controllers
                 ProductId = productId,
                 Content = commentDto.Content
             };
-            var comment = await _context.Comments.AddAsync(commentModel);
-            await _context.SaveChangesAsync();
-            return Ok();
+            var comment = await _commentRepo.CreateAsync(commentModel);
+            return Ok(comment.ToCommentDto(username));
         }
     }
 }

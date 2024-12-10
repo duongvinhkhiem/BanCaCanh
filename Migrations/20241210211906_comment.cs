@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -33,7 +34,8 @@ namespace BanCaCanh.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AppUserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,8 +60,8 @@ namespace BanCaCanh.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7360b063-dddd-43f0-abe1-87dc2ab082f4", null, "Admin", "ADMIN" },
-                    { "d7fa3c00-2b3a-4dda-ac83-6ba294f36a94", null, "User", "USER" }
+                    { "0c367880-2563-4440-9f7c-5a6b4acc69ea", null, "User", "USER" },
+                    { "69d5f084-eadd-4cb6-a405-dfa2d4a6ddaa", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -82,12 +84,12 @@ namespace BanCaCanh.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "7360b063-dddd-43f0-abe1-87dc2ab082f4");
+                keyValue: "0c367880-2563-4440-9f7c-5a6b4acc69ea");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d7fa3c00-2b3a-4dda-ac83-6ba294f36a94");
+                keyValue: "69d5f084-eadd-4cb6-a405-dfa2d4a6ddaa");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",

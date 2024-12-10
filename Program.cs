@@ -106,6 +106,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductImage, ProductImageRepository>();
 builder.Services.AddScoped<IProductCategory, ProductCategoryRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ITokenService, TokenSerivce>();
 
 var app = builder.Build();

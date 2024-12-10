@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BanCaCanh.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241210210551_comment")]
+    [Migration("20241210211906_comment")]
     partial class comment
     {
         /// <inheritdoc />
@@ -114,6 +114,9 @@ namespace BanCaCanh.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -220,13 +223,13 @@ namespace BanCaCanh.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7360b063-dddd-43f0-abe1-87dc2ab082f4",
+                            Id = "69d5f084-eadd-4cb6-a405-dfa2d4a6ddaa",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d7fa3c00-2b3a-4dda-ac83-6ba294f36a94",
+                            Id = "0c367880-2563-4440-9f7c-5a6b4acc69ea",
                             Name = "User",
                             NormalizedName = "USER"
                         });
