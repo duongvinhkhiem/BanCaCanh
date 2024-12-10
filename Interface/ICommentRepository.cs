@@ -10,7 +10,7 @@ namespace BanCaCanh.Interface
 {
     public interface ICommentRepository
     {
-        Task<List<CommentDto>> GetAllAsync(CommentQueryObject queryObject);
+        Task<List<Comment>> GetAllAsync(CommentQueryObject queryObject);
         Task<Comment> CreateAsync(Comment commentModel);
     }
 }

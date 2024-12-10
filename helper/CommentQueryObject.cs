@@ -7,7 +7,7 @@ namespace BanCaCanh.helper
 {
     public class CommentQueryObject
     {
-        public int Product { get; set; }
+        public int ProductId { get; set; }
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 1;
     }

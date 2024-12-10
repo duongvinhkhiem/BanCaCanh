@@ -7,6 +7,7 @@ using BanCaCanh.dto.comment;
 using BanCaCanh.helper;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BanCaCanh.repository
 {
@@ -25,9 +26,20 @@ namespace BanCaCanh.repository
             return commentModel;
         }
 
-        public Task<List<CommentDto>> GetAllAsync(CommentQueryObject queryObject)
+        public async Task<List<Comment>> GetAllAsync(CommentQueryObject queryObject)
         {
-            throw new NotImplementedException();
+            if (queryObject.ProductId == null)
+            {
+                return null;
+            }
+            var skip = (queryObject.Page - 1) * queryObject.PageSize;
+            var comments = await _context.Comments
+            .Where(s => s.ProductId == queryObject.ProductId)
+            .OrderByDescending(p => p.CreateAt)
+            .Skip(skip).Take(queryObject.PageSize)
+            .ToListAsync();
+
+            return comments;
         }
     }
 }
