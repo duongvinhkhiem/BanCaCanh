@@ -18,5 +18,6 @@ namespace BanCaCanh.models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public List<ProductCategory> ProductCategory { get; set; } = new List<ProductCategory>();
         public List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
