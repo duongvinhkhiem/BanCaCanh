@@ -64,5 +64,35 @@ namespace BanCaCanh.controllers
             var comment = await _commentRepo.CreateAsync(commentModel);
             return Ok(comment.ToCommentDto(username));
         }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] CreateCommentDto commentDto)
+        {
+            var username = User.GetUsername();
+            var appUser = await _usermanager.FindByNameAsync(username);
+            var comment = await _commentRepo.GetByIdAsync(id);
+            if (comment == null) return NotFound(new { message = "Bình luận không tồn tại" });
+            if (comment.AppUserId != appUser.Id) return Unauthorized();
+            var commentModel = await _commentRepo.UpdateAsync(id, commentDto);
+            return Ok(commentModel.ToCommentDto(username));
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteComment([FromRoute] int id)
+        {
+            var username = User.GetUsername();
+            var appUser = await _usermanager.FindByNameAsync(username);
+            var comment = await _commentRepo.GetByIdAsync(id);
+            if (comment == null) return NotFound(new { message = "Bình luận không tồn tại" });
+            if (comment.AppUserId != appUser.Id) return Unauthorized();
+            var commentDto = await _commentRepo.DeleteAsync(id);
+            if (commentDto == null)
+            {
+                return BadRequest(new { message = "Xóa comment thất bại" });
+            }
+            return NoContent();
+        }
     }
 }
