@@ -20,6 +20,9 @@ namespace BanCaCanh.data
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
