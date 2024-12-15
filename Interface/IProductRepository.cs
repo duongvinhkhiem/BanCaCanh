@@ -10,7 +10,7 @@ namespace BanCaCanh.Interface
 {
     public interface IProductRepository
     {
-        Task<List<Product>> GetAllAsync(QueryObject queryObject);
+        Task<List<Product>> GetAllAsync(ProductQueryObject queryObject);
         Task<Product?> GetByIdAsync(int id);
         Task<Product> CreateAsync(Product productModel);
         Task<Product?> UpdateAsync(int id, UpdateProductDto productDto);

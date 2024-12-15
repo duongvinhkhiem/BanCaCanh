@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace BanCaCanh.helper
 {
-    public class CommentQueryObject
+    public class CommentQueryObject : PaginationObject
     {
         public int ProductId { get; set; }
-        [Range(1, Int32.MaxValue)]
-        public int Page { get; set; } = 1;
-        [Range(1, 30)]
-        public int PageSize { get; set; } = 1;
     }
 }

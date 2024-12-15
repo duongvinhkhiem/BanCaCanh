@@ -16,12 +16,10 @@ namespace BanCaCanh.controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly ICategoryRepository _categoryRepo;
         public CategoryController(AppDbContext context, ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
-            _context = context;
         }
 
         [HttpGet]

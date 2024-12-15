@@ -26,7 +26,7 @@ namespace BanCaCanh.controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] QueryObject queryObject)
+        public async Task<IActionResult> GetAll([FromQuery] ProductQueryObject queryObject)
         {
             var products = await _productRepo.GetAllAsync(queryObject);
             var productDto = new List<ProductDto>();

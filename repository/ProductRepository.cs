@@ -38,16 +38,16 @@ namespace BanCaCanh.repository
             return productModel;
         }
 
-        public async Task<List<Product>> GetAllAsync(QueryObject queryObject)
+        public async Task<List<Product>> GetAllAsync(ProductQueryObject queryObject)
         {
-            var products = await _context.Products.Where(s => s.IsVisible == true).OrderByDescending(p => p.CreatedAt).ToListAsync();
+            var products = _context.Products.Where(s => s.IsVisible == true);
             var skip = (queryObject.Page - 1) * queryObject.PageSize;
             if (queryObject.Categoryid != null)
             {
-                products = await _context.Products.Where(p => p.ProductCategory.Any(pc => pc.CategoryId == queryObject.Categoryid)).ToListAsync();
-                return products.Skip(skip).Take(queryObject.PageSize).ToList();
+                products = products.Where(p => p.ProductCategory.Any(pc => pc.CategoryId == queryObject.Categoryid));
             }
-            return products.Skip(skip).Take(queryObject.PageSize).ToList();
+            var list = await products.OrderByDescending(p => p.CreatedAt).Skip(skip).Take(queryObject.PageSize).ToListAsync();
+            return list;
         }
 
         public async Task<Product?> GetByIdAsync(int id)
