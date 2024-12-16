@@ -26,6 +26,20 @@ namespace BanCaCanh.controllers
             _addressRepo = addressRepo;
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUserAddress()
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            if (appUser == null)
+            {
+                return BadRequest(new { message = "Người dùng không tồn tại" });
+            }
+            var addresses = await _addressRepo.GetUserAddress(appUser.Id);
+            var addressDto = addresses.Select(p => p.ToAddressDto());
+            return Ok(addressDto);
+        }
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateUserAddress([FromBody] CreateAddressDto createAddressDto)
@@ -39,6 +53,24 @@ namespace BanCaCanh.controllers
             var addressModel = createAddressDto.ToCreateAddressDto(appUser.Id);
             await _addressRepo.CreateUserAddress(addressModel);
             return Ok(addressModel.ToAddressDto());
+        }
+
+        [HttpPost("visible/{id}")]
+        [Authorize]
+        public async Task<IActionResult> SetVisible([FromRoute] int id)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            if (appUser == null)
+            {
+                return BadRequest(new { message = "Người dùng không tồn tại" });
+            }
+            var productModel = await _addressRepo.VisibleAddress(id);
+            if (productModel == null)
+            {
+                return NotFound(new { message = "Địa chỉ không tồn tại" });
+            }
+            return NoContent();
         }
     }
 }

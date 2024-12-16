@@ -10,6 +10,7 @@ namespace BanCaCanh.Interface
     {
         Task<List<Address>> GetUserAddress(string appUserId);
         Task<Address> CreateUserAddress(Address addressModel);
+        Task<Address?> VisibleAddress(int id);
 
     }
 }

@@ -53,6 +53,10 @@ namespace BanCaCanh.controllers
         {
             var username = User.GetUsername();
             var appUser = await _usermanager.FindByNameAsync(username);
+            if (appUser == null)
+            {
+                return BadRequest(new { message = "Người dùng không tồn tại" });
+            }
             var product = await _productRepo.GetByIdAsync(productId);
             if (product == null) return NotFound(new { message = "Sản phẩm không tồn tại" });
             var commentModel = new Comment
@@ -71,6 +75,10 @@ namespace BanCaCanh.controllers
         {
             var username = User.GetUsername();
             var appUser = await _usermanager.FindByNameAsync(username);
+            if (appUser == null)
+            {
+                return BadRequest(new { message = "Người dùng không tồn tại" });
+            }
             var comment = await _commentRepo.GetByIdAsync(id);
             if (comment == null) return NotFound(new { message = "Bình luận không tồn tại" });
             if (comment.AppUserId != appUser.Id) return Unauthorized();
@@ -84,6 +92,10 @@ namespace BanCaCanh.controllers
         {
             var username = User.GetUsername();
             var appUser = await _usermanager.FindByNameAsync(username);
+            if (appUser == null)
+            {
+                return BadRequest(new { message = "Người dùng không tồn tại" });
+            }
             var comment = await _commentRepo.GetByIdAsync(id);
             if (comment == null) return NotFound(new { message = "Bình luận không tồn tại" });
             if (comment.AppUserId != appUser.Id) return Unauthorized();

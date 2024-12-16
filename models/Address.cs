@@ -16,6 +16,7 @@ namespace BanCaCanh.models
         public string Street { get; set; }
         public string PhoneNumber { get; set; }
         public string AppUserId { get; set; }
+        public bool IsVisible { get; set; } = true;
         public AppUser AppUser { get; set; }
         public List<Order> Orders { get; set; } = new List<Order>();
     }

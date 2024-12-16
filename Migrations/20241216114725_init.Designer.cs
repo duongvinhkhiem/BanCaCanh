@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BanCaCanh.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241212065813_order")]
-    partial class order
+    [Migration("20241216114725_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,9 @@ namespace BanCaCanh.Migrations
                     b.Property<string>("Fullname")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -227,19 +230,20 @@ namespace BanCaCanh.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("StockQuantity")
+                    b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -310,13 +314,13 @@ namespace BanCaCanh.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c557e82b-83e7-4ec2-b842-64aecffd329d",
+                            Id = "d01daa08-b479-42a0-b289-5b79df0368ea",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e06e8bd8-bcf5-46fd-b9b8-fefc1a24d8dc",
+                            Id = "bc5296ff-3ff2-46c7-b9e2-d2976773cdf5",
                             Name = "User",
                             NormalizedName = "USER"
                         });

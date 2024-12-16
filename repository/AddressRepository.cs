@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BanCaCanh.data;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BanCaCanh.repository
 {
@@ -22,9 +23,22 @@ namespace BanCaCanh.repository
             return addressModel;
         }
 
-        public Task<List<Address>> GetUserAddress(string appUserId)
+
+        public async Task<List<Address>> GetUserAddress(string appUserId)
         {
-            throw new NotImplementedException();
+            return await _context.Addresses.Where(p => p.AppUserId == appUserId && p.IsVisible != false).ToListAsync();
+        }
+
+        public async Task<Address?> VisibleAddress(int id)
+        {
+            var addressModel = await _context.Addresses.FirstOrDefaultAsync(s => s.Id == id);
+            if (addressModel == null)
+            {
+                return null;
+            }
+            addressModel.IsVisible = false;
+            await _context.SaveChangesAsync();
+            return addressModel;
         }
     }
 }
