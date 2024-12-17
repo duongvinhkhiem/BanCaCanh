@@ -351,6 +351,8 @@ namespace BanCaCanh.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Note = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -400,8 +402,8 @@ namespace BanCaCanh.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "bc5296ff-3ff2-46c7-b9e2-d2976773cdf5", null, "User", "USER" },
-                    { "d01daa08-b479-42a0-b289-5b79df0368ea", null, "Admin", "ADMIN" }
+                    { "08effaf0-7208-4ce1-a348-899b5302cc73", null, "User", "USER" },
+                    { "d4eb04e3-3680-4674-87ba-ca08c8dace19", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

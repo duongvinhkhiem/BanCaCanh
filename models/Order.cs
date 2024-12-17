@@ -11,7 +11,8 @@ namespace BanCaCanh.models
     {
         public int Id { get; set; }
         public string Note { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public string Status { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public int AddressId { get; set; }
         public Address Address { get; set; }
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();

@@ -6,6 +6,7 @@ using BanCaCanh.data;
 using BanCaCanh.dto.order;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BanCaCanh.repository
 {
@@ -17,21 +18,18 @@ namespace BanCaCanh.repository
             _context = context;
         }
 
-        public Task<Order> CreateOrder(int AddressId)
+        public async Task<Order> CreateOrder(Order orderModel)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Order> CreateOrderDetail(int OrderId, int ProductId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Address> CreateUserAddress(Address addressModel)
-        {
-            await _context.AddAsync(addressModel);
+            await _context.Orders.AddAsync(orderModel);
             await _context.SaveChangesAsync();
-            return addressModel;
+            return orderModel;
+        }
+
+        public async Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetailModel)
+        {
+            await _context.OrderDetails.AddAsync(orderDetailModel);
+            await _context.SaveChangesAsync();
+            return orderDetailModel;
         }
 
         public Task<List<Order>> GetAllOrder()
@@ -44,9 +42,15 @@ namespace BanCaCanh.repository
             throw new NotImplementedException();
         }
 
-        public Task<Order> PayOrder(int OrderId, List<int> ProductId)
+        public async Task<List<OrderDetail>> PayOrder(List<OrderDetail> orderDetailModel)
         {
-            throw new NotImplementedException();
+            foreach (var item in orderDetailModel)
+            {
+                await _context.OrderDetails.AddAsync(item);
+            }
+            await _context.SaveChangesAsync();
+
+            return orderDetailModel;
         }
     }
 }

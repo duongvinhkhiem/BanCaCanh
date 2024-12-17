@@ -11,8 +11,8 @@ namespace BanCaCanh.Interface
     {
         Task<List<Order>> GetAllOrder();
         Task<List<Order>> GetUserOrder(string AppUserId);
-        Task<Order> CreateOrder(int AddressId);
-        Task<Order> CreateOrderDetail(int OrderId, int ProductId);
-        Task<Order> PayOrder(int OrderId, List<int> ProductId);
+        Task<Order> CreateOrder(Order orderModel);
+        Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetailModel);
+        Task<List<OrderDetail>> PayOrder(List<OrderDetail> orderDetailModel);
     }
 }

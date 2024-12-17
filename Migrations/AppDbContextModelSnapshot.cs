@@ -183,6 +183,10 @@ namespace BanCaCanh.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
@@ -311,13 +315,13 @@ namespace BanCaCanh.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d01daa08-b479-42a0-b289-5b79df0368ea",
+                            Id = "d4eb04e3-3680-4674-87ba-ca08c8dace19",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bc5296ff-3ff2-46c7-b9e2-d2976773cdf5",
+                            Id = "08effaf0-7208-4ce1-a348-899b5302cc73",
                             Name = "User",
                             NormalizedName = "USER"
                         });
