@@ -13,6 +13,6 @@ namespace BanCaCanh.Interface
         Task<List<Order>> GetUserOrder(string AppUserId);
         Task<Order> CreateOrder(Order orderModel);
         Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetailModel);
-        Task<List<OrderDetail>> PayOrder(List<OrderDetail> orderDetailModel);
+        Task<Order> PayOrder(Order orderModel, List<CreateOrderDetailDto> orderDetailModel);
     }
 }

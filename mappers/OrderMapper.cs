@@ -9,6 +9,17 @@ namespace BanCaCanh.mappers
 {
     public static class OrderMapper
     {
+        public static OrderDto ToOrderDto(this Order orderModel, AddressDto addressDto)
+        {
+            return new OrderDto
+            {
+                Id = orderModel.Id,
+                Note = orderModel.Note,
+                Status = orderModel.Status,
+                CreatedAt = orderModel.CreatedAt,
+                Address = addressDto
+            };
+        }
         public static Order ToCreateOrderDto(this CreateOrderDto dto)
         {
             return new Order

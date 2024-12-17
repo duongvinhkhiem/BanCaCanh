@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BanCaCanh.data;
 using BanCaCanh.dto.order;
 using BanCaCanh.Interface;
+using BanCaCanh.mappers;
 using BanCaCanh.models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +29,6 @@ namespace BanCaCanh.repository
         public async Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetailModel)
         {
             await _context.OrderDetails.AddAsync(orderDetailModel);
-            await _context.SaveChangesAsync();
             return orderDetailModel;
         }
 
@@ -42,15 +42,17 @@ namespace BanCaCanh.repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<OrderDetail>> PayOrder(List<OrderDetail> orderDetailModel)
+        public async Task<Order> PayOrder(Order orderModel, List<CreateOrderDetailDto> orderDetailModel)
         {
+            var order = await CreateOrder(orderModel);
             foreach (var item in orderDetailModel)
             {
-                await _context.OrderDetails.AddAsync(item);
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+                var detail = item.ToCreateOrderDetail(order.Id, product.Price);
+                await CreateOrderDetail(detail);
             }
             await _context.SaveChangesAsync();
-
-            return orderDetailModel;
+            return order;
         }
     }
 }

@@ -26,13 +26,16 @@ namespace BanCaCanh.controllers
         public async Task<IActionResult> CreateOrderDto([FromBody] CreateOrderDto createOrderDto)
         {
             var orderModel = createOrderDto.ToCreateOrderDto();
-            var order = await _orderRepo.CreateOrder(orderModel);
             foreach (var item in createOrderDto.OrderDetails)
             {
                 var product = await _productRepo.GetByIdAsync(item.ProductId);
-                var orderDetail = item.ToCreateOrderDetail(order.Id, product.Price);
-                await _orderRepo.CreateOrderDetail(orderDetail);
+                if (product == null)
+                {
+                    return NotFound(new { message = "Sản phẩm bạn thêm không tồn tại" });
+                }
+
             }
+            await _orderRepo.PayOrder(orderModel, createOrderDto.OrderDetails);
             return Ok();
         }
 
