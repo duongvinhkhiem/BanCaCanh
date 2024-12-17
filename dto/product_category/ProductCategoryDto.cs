@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using BanCaCanh.dto.category;
 using BanCaCanh.dto.product;
 
-namespace BanCaCanh.dto.product_controller
+namespace BanCaCanh.dto.product_category
 {
     public class ProductCategoryDto
     {

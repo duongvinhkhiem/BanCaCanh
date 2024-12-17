@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BanCaCanh.dto.product_controller;
+using BanCaCanh.dto.product_category;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
 using Microsoft.AspNetCore.Authorization;

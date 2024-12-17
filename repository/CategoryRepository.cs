@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BanCaCanh.data;
 using BanCaCanh.dto.category;
 using BanCaCanh.Interface;
+using BanCaCanh.mappers;
 using BanCaCanh.models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,17 @@ namespace BanCaCanh.repository
         public async Task<Category?> GetByIdAsync(int id)
         {
             return await _context.Categories.FindAsync(id);
+        }
+
+        public async Task<List<CategoryDto>> GetCategories(int productId)
+        {
+            var categories = await _context.ProductCategory.Where(p => p.ProductId == productId).Select(pc => new CategoryDto
+            {
+                Id = pc.Category.Id,
+                CategoryName = pc.Category.CategoryName,
+            }).ToListAsync();
+
+            return categories;
         }
 
         public async Task<Category?> UpdateAsync(int id, CreateCategoryDto categoryDto)

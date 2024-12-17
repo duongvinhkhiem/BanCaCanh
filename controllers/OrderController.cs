@@ -6,6 +6,7 @@ using BanCaCanh.dto.order;
 using BanCaCanh.Interface;
 using BanCaCanh.mappers;
 using BanCaCanh.models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BanCaCanh.controllers
@@ -23,6 +24,7 @@ namespace BanCaCanh.controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateOrderDto([FromBody] CreateOrderDto createOrderDto)
         {
             var orderModel = createOrderDto.ToCreateOrderDto();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BanCaCanh.data;
-using BanCaCanh.dto.product_controller;
+using BanCaCanh.dto.product_category;
 using BanCaCanh.Interface;
 using BanCaCanh.models;
 using Microsoft.EntityFrameworkCore;
@@ -38,5 +38,6 @@ namespace BanCaCanh.repository
             return await _context.ProductCategory
                 .AnyAsync(pc => pc.ProductId == productCategory.ProductId && pc.CategoryId == productCategory.CategoryId);
         }
+
     }
 }

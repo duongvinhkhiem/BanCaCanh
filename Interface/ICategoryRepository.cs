@@ -15,6 +15,6 @@ namespace BanCaCanh.Interface
         Task<Category?> UpdateAsync(int id, CreateCategoryDto categoryDto);
         Task<Category?> DeleteAsync(int id);
         Task<bool> CategoryExists(int id);
-
+        Task<List<CategoryDto>> GetCategories(int productId);
     }
 }

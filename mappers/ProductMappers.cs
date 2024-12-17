@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BanCaCanh.dto;
+using BanCaCanh.dto.category;
 using BanCaCanh.dto.product;
 using BanCaCanh.models;
 
@@ -24,6 +25,21 @@ namespace BanCaCanh.mappers
                 ProductImages = productImage,
             };
         }
+        public static ProductDto DetailToProductDto(this Product productModel, List<ImagesDto> productImage, List<CategoryDto> categoryDto)
+        {
+            return new ProductDto
+            {
+                Id = productModel.Id,
+                ProductName = productModel.ProductName,
+                Price = productModel.Price,
+                Description = productModel.Description,
+                IsVisible = productModel.IsVisible,
+                StockQuantity = productModel.StockQuantity,
+                CreatedAt = productModel.CreatedAt,
+                ProductImages = productImage,
+                Categories = categoryDto
+            };
+        }
         public static Product ToCreateProductDto(this CreateProductDto productModel)
         {
             return new Product
@@ -43,5 +59,6 @@ namespace BanCaCanh.mappers
                 ProductId = productImage.Id
             };
         }
+
     }
 }

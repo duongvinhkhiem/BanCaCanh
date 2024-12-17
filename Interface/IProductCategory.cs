@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BanCaCanh.dto.product_controller;
+using BanCaCanh.dto.category;
+using BanCaCanh.dto.product_category;
 using BanCaCanh.models;
 
 namespace BanCaCanh.Interface

@@ -29,6 +29,7 @@ namespace BanCaCanh.repository
         public async Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetailModel)
         {
             await _context.OrderDetails.AddAsync(orderDetailModel);
+            await _context.SaveChangesAsync();
             return orderDetailModel;
         }
 

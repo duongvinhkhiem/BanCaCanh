@@ -19,10 +19,12 @@ namespace BanCaCanh.controllers
     {
         private readonly IProductRepository _productRepo;
         private readonly IProductImage _productImageRepo;
-        public ProductController(IProductRepository productRepo, IProductImage productImageRepo)
+        private readonly ICategoryRepository _categoryRepo;
+        public ProductController(IProductRepository productRepo, IProductImage productImageRepo, ICategoryRepository categoryRepo)
         {
             _productRepo = productRepo;
             _productImageRepo = productImageRepo;
+            _categoryRepo = categoryRepo;
         }
 
         [HttpGet]
@@ -49,7 +51,8 @@ namespace BanCaCanh.controllers
                 return NotFound(new { message = "Sản phẩm không tồn tại" });
             }
             var images = await _productImageRepo.GetAllAsync(id);
-            return Ok(product.ToProductDto(images));
+            var categories = await _categoryRepo.GetCategories(id);
+            return Ok(product.DetailToProductDto(images, categories));
         }
 
         [HttpPost]

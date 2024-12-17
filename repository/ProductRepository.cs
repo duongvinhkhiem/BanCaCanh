@@ -46,6 +46,12 @@ namespace BanCaCanh.repository
             {
                 products = products.Where(p => p.ProductCategory.Any(pc => pc.CategoryId == queryObject.Categoryid));
             }
+
+            if (!string.IsNullOrEmpty(queryObject.Search))
+            {
+                products = products.Where(p => p.ProductName.Contains(queryObject.Search));
+            }
+
             var list = await products.OrderByDescending(p => p.CreatedAt).Skip(skip).Take(queryObject.PageSize).ToListAsync();
             return list;
         }

@@ -8,5 +8,6 @@ namespace BanCaCanh.helper
     public class ProductQueryObject : PaginationObject
     {
         public int? Categoryid { get; set; } = null;
+        public string? Search { get; set; } = null;
     }
 }
