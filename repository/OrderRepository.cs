@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using BanCaCanh.data;
 using BanCaCanh.dto.order;
+using BanCaCanh.helper;
 using BanCaCanh.Interface;
 using BanCaCanh.mappers;
 using BanCaCanh.models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace BanCaCanh.repository
@@ -33,7 +35,13 @@ namespace BanCaCanh.repository
             return orderDetailModel;
         }
 
-        public Task<List<Order>> GetAllOrder()
+        public async Task<List<Order>> GetAllOrder(PaginationObject paginationObject)
+        {
+            var skip = (paginationObject.Page - 1) * paginationObject.PageSize;
+            return await _context.Orders.Include(p => p.Address).Skip(skip).Take(paginationObject.PageSize).OrderByDescending(p => p.CreatedAt).ToListAsync();
+        }
+
+        public Task<List<Order>> GetOrderDetail(int orderId)
         {
             throw new NotImplementedException();
         }

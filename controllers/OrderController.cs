@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BanCaCanh.dto.order;
+using BanCaCanh.helper;
 using BanCaCanh.Interface;
 using BanCaCanh.mappers;
 using BanCaCanh.models;
@@ -41,5 +42,13 @@ namespace BanCaCanh.controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAllOrder([FromQuery] PaginationObject paginationObject)
+        {
+            var list = await _orderRepo.GetAllOrder(paginationObject);
+            var orders = list.Select(p => p.ToOrderDto(p.Address.ToAddressDto()));
+            return Ok(orders);
+        }
     }
 }
