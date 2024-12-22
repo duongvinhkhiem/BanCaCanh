@@ -46,9 +46,10 @@ namespace BanCaCanh.repository
             throw new NotImplementedException();
         }
 
-        public Task<List<Order>> GetUserOrder(string AppUserId)
+        public async Task<List<Order>> GetUserOrder(string AppUserId, PaginationObject paginationObject)
         {
-            throw new NotImplementedException();
+            var skip = (paginationObject.Page - 1) * paginationObject.PageSize;
+            return await _context.Orders.Include(p => p.Address).Skip(skip).Take(paginationObject.PageSize).Where(p => p.Address.AppUserId == AppUserId).ToListAsync();
         }
 
         public async Task<Order> PayOrder(Order orderModel, List<CreateOrderDetailDto> orderDetailModel)
@@ -62,6 +63,34 @@ namespace BanCaCanh.repository
             }
             await _context.SaveChangesAsync();
             return order;
+        }
+
+        public async Task<decimal> SumOrder()
+        {
+            var revenue = await _context.OrderDetails.SumAsync(p => p.Price * p.Quantity);
+            return revenue;
+        }
+
+        public async Task<Order> Update(int orderId, int confirm)
+        {
+            var order = await _context.Orders.Include(p => p.Address).FirstOrDefaultAsync(p => p.Id == orderId);
+            if (order == null)
+            {
+                return null;
+            }
+            switch (confirm)
+            {
+                case 0:
+                    order.Status = "No";
+                    await _context.SaveChangesAsync();
+                    return order;
+                case 1:
+                    order.Status = "Yes";
+                    await _context.SaveChangesAsync();
+                    return order;
+                default:
+                    return order;
+            }
         }
     }
 }
